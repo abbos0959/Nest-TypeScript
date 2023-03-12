@@ -5,6 +5,8 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { log } from 'console';
+import { JwtModule } from '@nestjs/jwt';
+import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
@@ -13,10 +15,23 @@ export class UserService {
     private readonly UserRepository: Repository<UserEntity>,
   ) {}
   async useryaratish(createdUserDto: CreateUSerDto) {
-    // const password = await bcrypt.hash(createdUserDto.password.toString(), 10);
-    const user = new UserEntity();
-    Object.assign(user, createdUserDto);
+    const password = await bcrypt.hash(createdUserDto.password.toString(), 10);
+
+    const user = await this.UserRepository.create({
+      ...createdUserDto,
+      password: password,
+    });
 
     return await this.UserRepository.save(user);
+  }
+  generateToken(user: UserEntity) {
+    return sign({ id: user.id }, 'secret', { expiresIn: '1d' });
+  }
+
+  ResponseToken(user: UserEntity) {
+    return {
+      ...user,
+      token: this.generateToken(user),
+    };
   }
 }
