@@ -8,8 +8,11 @@ const config: DataSourceOptions = {
   username: 'postgres',
   password: 'abbos1999',
   database: 'Nest',
-  entities: [TagEntity],
+
+  entities: [__dirname + '/../**/*.entity.{js,ts}'],
+  // entities:[TagEntity],
   synchronize: false,
+
   migrations: [],
 };
 export default config;
