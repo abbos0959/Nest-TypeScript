@@ -9,6 +9,7 @@ const config: DataSourceOptions = {
   password: 'abbos1999',
   database: 'Nest',
   entities: [TagEntity],
-  synchronize: true,
+  synchronize: false,
+  migrations: [],
 };
 export default config;
