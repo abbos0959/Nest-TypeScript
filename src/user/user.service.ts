@@ -14,6 +14,7 @@ import { UserEntity } from './user.entity';
 import { log } from 'console';
 import { JwtModule } from '@nestjs/jwt';
 import { sign } from 'jsonwebtoken';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class UserService {
@@ -67,6 +68,8 @@ export class UserService {
 
     return user;
   }
+
+  async CurretUser() {}
   generateToken(user: UserEntity) {
     return sign({ id: user.id }, 'secret', { expiresIn: '1d' });
   }
